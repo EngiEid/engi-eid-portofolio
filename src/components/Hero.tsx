@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { ChevronDown } from 'lucide-react';
-import engiPortrait from '@/assets/engi-portrait.jpg';
+import engiPortrait from '@/assets/engi-profile.jpg';
 
 const Hero = () => {
   const scrollToPortfolio = () => {
