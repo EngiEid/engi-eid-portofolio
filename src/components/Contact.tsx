@@ -6,6 +6,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Mail, Phone, Linkedin, Github, MapPin, Send } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
+import emailjs from '@emailjs/browser';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -28,15 +29,37 @@ const Contact = () => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simulate form submission
-    setTimeout(() => {
+    try {
+      // Initialize EmailJS with your public key
+      emailjs.init('spmVqz5opgIjzIXV2');
+      
+      // Send email using EmailJS
+      await emailjs.send(
+        'service_2mj1grn', // Service ID
+        'template_88ocyzo', // Template ID
+        {
+          from_name: formData.name,
+          from_email: formData.email,
+          message: formData.message,
+          to_name: 'Engi Eid',
+        }
+      );
+
       toast({
         title: "Message Sent!",
         description: "Thank you for your message. I'll get back to you soon.",
       });
       setFormData({ name: '', email: '', message: '' });
+    } catch (error) {
+      console.error('EmailJS Error:', error);
+      toast({
+        title: "Error",
+        description: "Failed to send message. Please try again or contact me directly.",
+        variant: "destructive",
+      });
+    } finally {
       setIsSubmitting(false);
-    }, 1000);
+    }
   };
 
   const contactInfo = [
